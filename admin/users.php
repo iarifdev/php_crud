@@ -11,16 +11,13 @@
               <div class="col-md-12">
 
               <?php
-              include "$config.php";
+              include "config.php";
 
               $sql = "SELECT * FROM user ORDER By user_id DESC";
 
               $result = mysqli_query($conn, $sql) or die("Query Failed");
 
               if(mysqli_num_rows($result) > 0){
-
-             
-
               ?>
                   <table class="content-table">
                       <thead>
@@ -37,14 +34,17 @@
 
                           <tr>
                               <td class='id'><?php echo $row['user_id']; ?></td>
-                              <td><?php echo $row['first_name'] . $row['last_name']; ?></td>
+                              <td><?php echo $row['first_name'] . " " . $row['last_name']; ?></td>
                               <td><?php echo $row['username']; ?></td>
-                              <td class='edit'><a href='update-user.php'><i class='fa fa-edit'></i></a></td>
-                              <td class='delete'><a href='delete-user.php'><i class='fa fa-trash-o'></i></a></td>
+                              <td><?php if($row['role'] == 1){
+                                  echo "Admin";
+                              }else{
+                                echo "Normal";
+                              } ?></td>
+                              <td class='edit'><a href='update-user.php?id=<?php echo $row["user_id"]; ?>'><i class='fa fa-edit'></i></a></td>
+                              <td class='delete'><a href='delete-user.php?id=<?php echo $row["user_id"]; ?>'><i class='fa fa-trash-o'></i></a></td>
                           </tr>
-                    <?php
-
-                        } // While loop Close
+                    <?php } // While loop Close
                     ?>
                       </tbody>
                   </table>
