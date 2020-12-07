@@ -5,15 +5,23 @@
               <div class="col-md-10">
                   <h1 class="admin-heading">All Users</h1>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-2">    
                   <a class="add-new" href="add-user.php">add user</a>
               </div>
               <div class="col-md-12">
 
               <?php
               include "config.php";
+              $limit = 3;  // For pagination Purpose
 
-              $sql = "SELECT * FROM user ORDER By user_id DESC";
+                if(isset($_GET['page'])){
+                    $page = $_GET['page'];
+                }else{
+                    $page = 1;
+                }  
+              $offset = ($page - 1) * $limit;
+ 
+            $sql = "SELECT * FROM user ORDER By user_id DESC LIMIT {$offset}, {$limit}";
 
               $result = mysqli_query($conn, $sql) or die("Query Failed");
 
@@ -52,11 +60,32 @@
 
                     } // if Num_Rows Close
                   ?>
-                  <ul class='pagination admin-pagination'>
-                      <li class="active"><a>1</a></li>
-                      <li><a>2</a></li>
-                      <li><a>3</a></li>
-                  </ul>
+                <!--  Start Pagination code -->
+                <?php
+                    $sql1 = "SELECT * FROM user";
+                    $result = mysqli_query($conn, $sql1) or die("Query Failed");
+
+                    if(mysqli_num_rows($result) > 0){
+                        $total_record = mysqli_num_rows($result);
+                        
+                        $total_page = ceil($total_record/ $limit);
+                        echo '<ul class="pagination admin-pagination">';
+                        if($page > 1){
+                        echo '<li><a href= "users.php?page='.($page - 1).'">Prev</a></li>';
+                        }
+                        for($i=0; $i <= $total_page; $i++){
+                            if($i == $page){
+                                $active = "active";
+                            }else{
+                                $active = "";
+                            }
+                            echo '<li class="'.$active.'"><a href="users.php?page='.$i.'">'.$i.'</a></li>';
+                        }
+                        if($total_page > $page){
+                            echo '<li><a href= "users.php?page='.($page + 1).'">Next</a></li>';
+                        };
+                    }
+                ?><!--  End Pagination code -->       
               </div>
           </div>
       </div>
