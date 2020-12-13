@@ -1,3 +1,13 @@
+<?php
+include "config.php";
+session_start();
+
+if(isset($_SESSION['username'])){
+    header("Location: {$hostname}/admin/post.php");
+}
+?>
+
+
 <!doctype html>
 <html>
    <head>
@@ -31,7 +41,7 @@
                         </form>
                         <!-- /Form  End -->
 
-                    <?php
+                    <?php  //Login
                         if(isset($_POST['login'])){
                             include "config.php";
                             $username = mysqli_real_escape_string($conn, $_POST['username']);

@@ -1,3 +1,11 @@
+<?php
+include "config.php";
+session_start();
+
+if(!isset($_SESSION['username'])){
+    header("Location: {$hostname}/admin/");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,8 +34,8 @@
                     </div>
                     <!-- /LOGO -->
                       <!-- LOGO-Out -->
-                    <div class="col-md-offset-9  col-md-1">
-                        <a href="logout.php" class="admin-logout" >logout</a>
+                    <div class="col-md-offset-9  col-md-3">
+                        <a href="logout.php" class="admin-logout">Welcome <?php echo $_SESSION['username'];  ?> logout</a>
                     </div>
                     <!-- /LOGO-Out -->
                 </div>
@@ -43,12 +51,18 @@
                             <li>
                                 <a href="post.php">Post</a>
                             </li>
+                            <?php
+                                if($_SESSION["user_role"] == '1'){      // if user role ==1 then show 2 extra tab category and users
+                            ?>
                             <li>
                                 <a href="category.php">Category</a>
                             </li>
                             <li>
                                 <a href="users.php">Users</a>
                             </li>
+                            <?php   
+                                }
+                            ?>
                         </ul>
                     </div>
                 </div>
