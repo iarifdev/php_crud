@@ -7,9 +7,9 @@
                 <div class="post-container">
                 <?php
 
-$sql1 = "SELECT * FROM category WHERE category_id = {$cat_id}";
-$result1 = mysqli_query($conn, $sql1) or die("Query Failed");
-$row1 = mysqli_fetch_assoc($result1);
+    $sql1 = "SELECT * FROM category WHERE category_id = {$cat_id}";
+    $result1 = mysqli_query($conn, $sql1) or die("Query Failed");
+    $row1 = mysqli_fetch_assoc($result1);
                 ?>
                   <h2 class="page-heading"><?php echo $row1['category_name']; ?></h2>
                   <?php
@@ -26,7 +26,9 @@ $row1 = mysqli_fetch_assoc($result1);
                                         }  
                                     $offset = ($page - 1) * $limit;
 
-                                    $sql = "SELECT post.post_id, post.title, post.description, post.post_date, category.category_name, user.username, post.category,post.post_img FROM post
+                                    $sql = "SELECT post.post_id, post.title, post.description, post.post_date,post.author, 
+                                    category.category_name, user.username, post.category,post.post_img 
+                                    FROM post
                                     LEFT JOIN category ON post.category = category.category_id
                                     LEFT JOIN user ON post.author = user.user_id
                                     WHERE post.category = {$cat_id}
@@ -54,7 +56,7 @@ $row1 = mysqli_fetch_assoc($result1);
                                             </span>
                                             <span>
                                                 <i class="fa fa-user" aria-hidden="true"></i>
-                                                <a href='author.php'><?php echo $row['username'];  ?></a>
+                                                <a href='author.php?aid=<?php echo $row['author']; ?>'><?php echo $row['username'];  ?></a>
                                             </span>
                                             <span>
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
